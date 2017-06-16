@@ -8,7 +8,7 @@ import os
 
 def parse_json(input_url_path, output_file_name):
     # Saves downloaded file - on failure this file will remain for inspection
-    tmp_file_name = "todaysData.json"
+    tmp_file_name = "./todaysData.json"
 
     if not os.path.isfile(tmp_file_name):
         download_file = urllib.URLopener()
