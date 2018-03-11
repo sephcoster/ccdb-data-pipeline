@@ -103,11 +103,6 @@ def download_and_index(parser_args):
                                'complaints/ccdb/ccdb_output.json',
                                index_name, backup_index_name, index_alias)
 
-    taxonomy_index.index_taxonomy(es, logger,
-                                  'complaints/taxonomy/taxonomy.txt',
-                                  index_alias)
-
-
 def main():
     p = build_arg_parser()
     c = p.parse()
