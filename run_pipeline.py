@@ -55,25 +55,6 @@ def get_es_connection(config):
     return es
 
 
-def test_index_growing(es, index_name):
-    ''' count index and make sure that number is stable or growing '''
-    filename='count_data_' + index_name + '-' + DOC_TYPE_NAME + '.txt'
-    res = es.search(index=index_name, doc_type=DOC_TYPE_NAME)
-    hits_count = res['hits']['total']
-    assert 'hits' in res
-    try:
-        with open(filename, 'r') as f:
-            prev_total = int(f.read())
-    except:
-        prev_total = 0
-        logger.info("count file did not exist")
-    logger.info("%s >= %d" % (hits_count, prev_total))
-    assert hits_count >= prev_total
-    with open(filename, 'w+') as f:
-        f.write(str(hits_count))
-    logger.info("Count written to file")
-
-
 def download_and_index(parser_args):
     global logger
     logger = setup_complaint_logging(DOC_TYPE_NAME)
@@ -86,9 +67,6 @@ def download_and_index(parser_args):
 
     logger.info("Creating Elasticsearch Connection")
     es = get_es_connection(c)
-
-    logger.info("Testing to ensure Socrata index is stable or growing")
-    test_index_growing(es, index_name)
 
     output_file_name = 'complaints/ccdb/ccdb_output.json'
     input_file_name = 'https://data.consumerfinance.gov/api/views/s6ew-h6mp/rows.json'
